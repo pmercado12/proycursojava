@@ -10,13 +10,15 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
@@ -25,12 +27,20 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "SC_CATALOGO_ITEM")
 @XmlRootElement
-public class ScCatalogoItem implements Serializable {
+@Getter
+@Setter
+@NamedQueries({
+    @NamedQuery(name = "ScCatalogoItem.buscar",
+            query = "select u from ScCatalogoItem u where u.descItem like :filtro")
+    ,@NamedQuery(name = "ScCatalogoItem.buscarPorRangoFecha",
+            query = "select u from ScCatalogoItem u ")
+})
+public class ScCatalogoItem extends XXXModel<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Column(name = "ID_ITEM", nullable = false)
-    private Long idItem;
+    private Long id;
     @Column(name = "ID_ENTIDAD_UTILIZA")
     private Long idEntidadUtiliza;
     @Column(nullable = false)
@@ -80,236 +90,9 @@ public class ScCatalogoItem implements Serializable {
     public ScCatalogoItem() {
     }
 
-    public ScCatalogoItem(Long idItem) {
-        this.idItem = idItem;
-    }
-
-    public ScCatalogoItem(Long idItem, short nivel, String descItem, String apropiable,
-            String apropiablePac, Date fechaActivacion, String apiEstado, String apiTransaccion,
-            String usuCre, Date fecCre) {
-        this.idItem = idItem;
-        this.nivel = nivel;
-        this.descItem = descItem;
-        this.apropiable = apropiable;
-        this.apropiablePac = apropiablePac;
-        this.fechaActivacion = fechaActivacion;
-        this.apiEstado = apiEstado;
-        this.apiTransaccion = apiTransaccion;
-        this.usuCre = usuCre;
-        this.fecCre = fecCre;
-    }
-
-    public Long getIdItem() {
-        return idItem;
-    }
-
-    public void setIdItem(Long idItem) {
-        this.idItem = idItem;
-    }
-
-    @XmlElement(nillable = false)
-    public Long getIdEntidadUtiliza() {
-        return idEntidadUtiliza;
-    }
-
-    public void setIdEntidadUtiliza(Long idEntidadUtiliza) {
-        this.idEntidadUtiliza = idEntidadUtiliza;
-    }
-
-    @XmlElement(nillable = false)
-    public short getNivel() {
-        return nivel;
-    }
-
-    public void setNivel(short nivel) {
-        this.nivel = nivel;
-    }
-
-    @XmlElement(nillable = false)
-    public String getCodigoItem() {
-        return codigoItem;
-    }
-
-    public void setCodigoItem(String codigoItem) {
-        this.codigoItem = codigoItem;
-    }
-
-    @XmlElement(nillable = false)
-    public String getDescItem() {
-        return descItem;
-    }
-
-    public void setDescItem(String descItem) {
-        this.descItem = descItem;
-    }
-
-    @XmlElement(nillable = false)
-    public String getDescDefinicion() {
-        return descDefinicion;
-    }
-
-    public void setDescDefinicion(String descDefinicion) {
-        this.descDefinicion = descDefinicion;
-    }
-
-    @XmlElement(nillable = false)
-    public Long getKeyEfectivo() {
-        return keyEfectivo;
-    }
-
-    public void setKeyEfectivo(Long keyEfectivo) {
-        this.keyEfectivo = keyEfectivo;
-    }
-
-    @XmlTransient
-    public String getApropiable() {
-        return apropiable;
-    }
-
-    public void setApropiable(String apropiable) {
-        this.apropiable = apropiable;
-    }
-
-    @XmlTransient
-    public String getApropiablePac() {
-        return apropiablePac;
-    }
-
-    public void setApropiablePac(String apropiablePac) {
-        this.apropiablePac = apropiablePac;
-    }
-
-    @XmlElement(nillable = false)
-    public String getMotivoEstadoItem() {
-        return motivoEstadoItem;
-    }
-
-    public void setMotivoEstadoItem(String motivoEstadoItem) {
-        this.motivoEstadoItem = motivoEstadoItem;
-    }
-
-    @XmlTransient
-    public Date getFechaActivacion() {
-        return fechaActivacion;
-    }
-
-    public void setFechaActivacion(Date fechaActivacion) {
-        this.fechaActivacion = fechaActivacion;
-    }
-
-    @XmlTransient
-    public Date getFechaInactivacion() {
-        return fechaInactivacion;
-    }
-
-    public void setFechaInactivacion(Date fechaInactivacion) {
-        this.fechaInactivacion = fechaInactivacion;
-    }
-
-    public String getApiEstado() {
-        return apiEstado;
-    }
-
-    public void setApiEstado(String apiEstado) {
-        this.apiEstado = apiEstado;
-    }
-
-    @XmlTransient
-    public String getApiTransaccion() {
-        return apiTransaccion;
-    }
-
-    public void setApiTransaccion(String apiTransaccion) {
-        this.apiTransaccion = apiTransaccion;
-    }
-
-    @XmlTransient
-    public String getUsuCre() {
-        return usuCre;
-    }
-
-    public void setUsuCre(String usuCre) {
-        this.usuCre = usuCre;
-    }
-
-    @XmlTransient
-    public Date getFecCre() {
-        return fecCre;
-    }
-
-    public void setFecCre(Date fecCre) {
-        this.fecCre = fecCre;
-    }
-
-    @XmlTransient
-    public String getUsuMod() {
-        return usuMod;
-    }
-
-    public void setUsuMod(String usuMod) {
-        this.usuMod = usuMod;
-    }
-
-    @XmlTransient
-    public Date getFecMod() {
-        return fecMod;
-    }
-
-    public void setFecMod(Date fecMod) {
-        this.fecMod = fecMod;
-    }
-
-    @XmlTransient
-    public List<ScCatalogoItemSin> getScCatalogoItemSinList() {
-        return scCatalogoItemSinList;
-    }
-
-    public void setScCatalogoItemSinList(List<ScCatalogoItemSin> scCatalogoItemSinList) {
-        this.scCatalogoItemSinList = scCatalogoItemSinList;
-    }
-
-    @XmlTransient
-    public List<ScCatalogoItem> getScCatalogoItemList() {
-        return scCatalogoItemList;
-    }
-
-    public void setScCatalogoItemList(List<ScCatalogoItem> scCatalogoItemList) {
-        this.scCatalogoItemList = scCatalogoItemList;
-    }
-
-    @XmlElement(nillable = false)
-    public ScCatalogoItem getIdItemPadre() {
-        return idItemPadre;
-    }
-
-    public void setIdItemPadre(ScCatalogoItem idItemPadre) {
-        this.idItemPadre = idItemPadre;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idItem != null ? idItem.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ScCatalogoItem)) {
-            return false;
-        }
-        ScCatalogoItem other = (ScCatalogoItem) object;
-        if ((this.idItem == null && other.idItem != null)
-                || (this.idItem != null && !this.idItem.equals(other.idItem))) {
-            return false;
-        }
-        return true;
-    }
-
     @Override
     public String toString() {
-        return "ScCatalogoItem{" + "idItem=" + idItem + ", codigoItem=" + codigoItem + ", descItem=" + descItem + ", descDefinicion=" + descDefinicion + ", keyEfectivo=" + keyEfectivo + ", apiEstado=" + apiEstado + '}';
+        return "ScCatalogoItem{" + "idItem=" + id + ", codigoItem=" + codigoItem + ", descItem=" + descItem + ", descDefinicion=" + descDefinicion + ", keyEfectivo=" + keyEfectivo + ", apiEstado=" + apiEstado + '}';
     }
 
 }

@@ -6,6 +6,7 @@ import javax.faces.bean.ViewScoped;
 import bo.com.cognos.java.proyecto.model.Usuario;
 import bo.com.cognos.java.proyecto.services.UsuarioService;
 import bo.com.cognos.java.proyecto.services.XXXService;
+import javax.annotation.PostConstruct;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,13 +17,24 @@ import lombok.Setter;
 // public class UsuarioBean {
 public class UsuarioBean extends XXXBean<Usuario, Integer> {
 
-    public UsuarioBean() {
-        super(Usuario.class);
-        this.buscar();
-    }
     @ManagedProperty("#{usuarioServiceImpl}")
     UsuarioService usuarioService;
-
+   
+    public UsuarioBean() {
+        super(Usuario.class);
+        //this.buscar();
+        log.error("constructor", null);
+    }
+    
+    @PostConstruct
+    public void init(){
+        log.debug("initpostconstruct", null);
+        this.buscar();
+        log.debug("length::" + this.items.size(), null);
+    }
+    
+    
+    
     @Override
     XXXService<Usuario, Integer> getService() {
         return usuarioService;

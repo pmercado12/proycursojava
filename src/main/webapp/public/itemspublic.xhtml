@@ -11,10 +11,10 @@
             <h:outputText value="&Iacute;tems"></h:outputText>
         </ui:define>
         <ui:define name="content">
-            <h:form>
+            <h:form id="form-lista-items">
 
                 <p:commandButton value="Nuevo" action="#{itemBean.nuevo()}" update="@form" />
-                <p:dataTable var="item" value="#{itemBean.items}">
+                <p:dataTable var="item" value="#{itemBean.itemsResponse}">
                     <p:column headerText="Opciones">
                         <p:commandButton value="Guardar" action="#{itemBean.actualizar(item)}" rendered="#{item.editando}" update="@form" />
                         <p:commandButton value="Editar" action="#{itemBean.editar(item)}" rendered="#{!item.editando}" update="@form" />
