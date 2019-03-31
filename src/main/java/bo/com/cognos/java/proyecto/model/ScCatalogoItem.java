@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -31,7 +33,7 @@ import lombok.Setter;
 @Setter
 @NamedQueries({
     @NamedQuery(name = "ScCatalogoItem.buscar",
-            query = "select u from ScCatalogoItem u where u.descItem like :filtro")
+            query = "select u from ScCatalogoItem u where u.descItem like :filtro or u.codigoItem like :filtro")
     ,@NamedQuery(name = "ScCatalogoItem.buscarPorRangoFecha",
             query = "select u from ScCatalogoItem u ")
 })
@@ -39,11 +41,12 @@ public class ScCatalogoItem extends XXXModel<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Column(name = "ID_ITEM", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID_ITEM")
     private Long id;
     @Column(name = "ID_ENTIDAD_UTILIZA")
     private Long idEntidadUtiliza;
-    @Column(nullable = false)
+    //@Column(nullable = false)
     private short nivel;
     @Column(name = "CODIGO_ITEM", length = 12)
     private String codigoItem;
@@ -53,25 +56,25 @@ public class ScCatalogoItem extends XXXModel<Long> implements Serializable {
     private String descDefinicion;
     @Column(name = "KEY_EFECTIVO")
     private Long keyEfectivo;
-    @Column(nullable = false, length = 1)
+    @Column(length = 1)
     private String apropiable;
-    @Column(name = "APROPIABLE_PAC", nullable = false, length = 1)
+    @Column(name = "APROPIABLE_PAC", length = 1)
     private String apropiablePac;
     @Column(name = "MOTIVO_ESTADO_ITEM", length = 100)
     private String motivoEstadoItem;
-    @Column(name = "FECHA_ACTIVACION", nullable = false)
+    @Column(name = "FECHA_ACTIVACION")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaActivacion;
     @Column(name = "FECHA_INACTIVACION")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaInactivacion;
-    @Column(name = "API_ESTADO", nullable = false, length = 25)
+    @Column(name = "API_ESTADO", length = 25)
     private String apiEstado;
-    @Column(name = "API_TRANSACCION", nullable = false, length = 30)
+    @Column(name = "API_TRANSACCION", length = 30)
     private String apiTransaccion;
-    @Column(name = "USU_CRE", nullable = false, length = 30)
+    @Column(name = "USU_CRE", length = 30)
     private String usuCre;
-    @Column(name = "FEC_CRE", nullable = false)
+    @Column(name = "FEC_CRE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecCre;
     @Column(name = "USU_MOD", length = 30)

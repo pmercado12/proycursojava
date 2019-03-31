@@ -11,17 +11,17 @@
     </h:head>
     <h:body>
         <center>
-            <p:fieldset legend="Cat&aacute;logo" style="margin-bottom:20px;width:30%;">
+            <p:fieldset legend="#{msg['general.sistema']}" style="margin-bottom:20px;width:30%;">
                 <i class="fa fa-user" style="font-size: 3em"></i>
                 <h:form>
                     <p:growl />
                     <h:panelGrid columns="2">
-                        <p:outputLabel value="Login: " />
+                        <p:outputLabel value="#{msg['login.usuario']}:" />
                         <p:inputText value="#{loginBean.login}" />
-                        <p:outputLabel value="Password: " />
-                        <p:inputText value="#{loginBean.password}" />
+                        <p:outputLabel value="#{msg['login.password']}:" />
+                        <p:password value="#{loginBean.password}" />
                         <center>
-                            <p:commandButton value="Ingresar" action="#{loginBean.ingresar}" update="@form" style="text-align: center;"/>
+                            <p:commandButton value="#{msg['login.ingresar']}" action="#{loginBean.ingresar}" update="@form" style="text-align: center;"/>
                         </center>
                     </h:panelGrid>
                 </h:form>

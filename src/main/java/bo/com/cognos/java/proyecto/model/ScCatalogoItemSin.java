@@ -6,6 +6,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -29,54 +31,31 @@ public class ScCatalogoItemSin implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "ID_SINONIMO", nullable = false)
     private Long idSinonimo;
-//    @Basic(optional = false)
-//    @NotNull
-//    @Column(name = "ID_UBIGEO", nullable = false)
-//    private long idUbigeo;
     @JoinColumn(name = "ID_UBIGEO", referencedColumnName = "ID_UBIGEO", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private UbicacionesGeograficas idUbigeo;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 500)
+    private UbicacionesGeograficas idUbigeo;    
     @Column(name = "DESC_SINONIMO", nullable = false, length = 500)
     private String descSinonimo;
-    @Size(max = 100)
     @Column(name = "MOTIVO_ESTADO_SINONIMO", length = 100)
-    private String motivoEstadoSinonimo;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "FECHA_ACTIVACION", nullable = false)
+    private String motivoEstadoSinonimo;    
+    @Column(name = "FECHA_ACTIVACION")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaActivacion;
     @Column(name = "FECHA_INACTIVACION")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaInactivacion;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 25)
-    @Column(name = "API_ESTADO", nullable = false, length = 25)
-    private String apiEstado;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 30)
-    @Column(name = "API_TRANSACCION", nullable = false, length = 30)
-    private String apiTransaccion;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 30)
-    @Column(name = "USU_CRE", nullable = false, length = 30)
-    private String usuCre;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "FEC_CRE", nullable = false)
+    private Date fechaInactivacion;    
+    @Column(name = "API_ESTADO", length = 25)
+    private String apiEstado;    
+    @Column(name = "API_TRANSACCION", length = 30)
+    private String apiTransaccion;    
+    @Column(name = "USU_CRE", length = 30)
+    private String usuCre;    
+    @Column(name = "FEC_CRE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecCre;
-    @Size(max = 30)
     @Column(name = "USU_MOD", length = 30)
     private String usuMod;
     @Column(name = "FEC_MOD")

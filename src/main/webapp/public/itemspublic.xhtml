@@ -8,23 +8,29 @@
       >
     <ui:composition template="./../template.xhtml">
         <ui:define name="title">
-            <h:outputText value="&Iacute;tems"></h:outputText>
+            <h:outputText value="Items"></h:outputText>
         </ui:define>
         <ui:define name="content">
             <h:form id="form-lista-items">
 
-                <p:commandButton value="Nuevo" action="#{itemBean.nuevo()}" update="@form" />
+                <h:panelGrid columns="4">
+                    <p:inputText value="#{itemBean.filtro}"/>
+                    <p:commandButton icon="fa fa-search" value="#{msg['general.buscar']}" action="#{itemBean.buscarItems()}" update="@form" />
+                </h:panelGrid>
+
+                <p:commandButton value="#{msg['general.nuevo']}" action="#{itemBean.nuevo()}" update="@form" />                
+
                 <p:dataTable var="item" value="#{itemBean.itemsResponse}">
                     <p:column headerText="Opciones">
-                        <p:commandButton value="Guardar" action="#{itemBean.actualizar(item)}" rendered="#{item.editando}" update="@form" />
-                        <p:commandButton value="Editar" action="#{itemBean.editar(item)}" rendered="#{!item.editando}" update="@form" />
-                        <p:commandButton value="Cancelar" action="#{itemBean.cancelar(item)}" rendered="#{item.editando}" update="@form" />
+                        <p:commandButton value="#{msg['general.guardar']}" action="#{itemBean.guardarItem(item)}" rendered="#{item.editando}" update="@form" />
+                        <p:commandButton value="#{msg['general.editar']}" action="#{itemBean.editar(item)}" rendered="#{!item.editando}" update="@form" />
+                        <p:commandButton value="#{msg['general.cancelar']}" action="#{itemBean.cancelar(item)}" rendered="#{item.editando}" update="@form" />
                     </p:column>
-                    <p:column headerText="Codigo Item">
+                    <p:column headerText="#{msg['item.codigoItem']}">
                         <h:outputText value="#{item.codigoItem}" rendered="#{!item.editando}" />
                         <p:inputText value="#{item.codigoItem}" rendered="#{item.editando}"/>
                     </p:column>
-                    <p:column headerText="Descripcion Item">
+                    <p:column headerText="#{msg['item.descItem']}">
                         <h:outputText value="#{item.descItem}" rendered="#{!item.editando}"/>
                         <p:inputText value="#{item.descItem}" rendered="#{item.editando}"/>
                     </p:column>            

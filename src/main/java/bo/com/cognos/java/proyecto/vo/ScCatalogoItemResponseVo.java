@@ -59,4 +59,9 @@ public class ScCatalogoItemResponseVo {
         this.editando = editando;
     }
 
+    @Override
+    public String toString() {
+        return "ScCatalogoItemResponseVo{" + "idItem=" + idItem + ", codigoItem=" + codigoItem + ", descItem=" + descItem + ", editando=" + editando + '}';
+    }
+
 }
