@@ -24,6 +24,7 @@
                     <p:column headerText="Opciones">
                         <p:commandButton value="#{msg['general.guardar']}" action="#{itemBean.guardarItem(item)}" rendered="#{item.editando}" update="@form" />
                         <p:commandButton value="#{msg['general.editar']}" action="#{itemBean.editar(item)}" rendered="#{!item.editando}" update="@form" />
+                        <p:commandButton value="#{msg['general.eliminar']}" action="#{itemBean.eliminarItem(item)}" rendered="#{item.idItem ne null}" update="@form"></p:commandButton>
                         <p:commandButton value="#{msg['general.cancelar']}" action="#{itemBean.cancelar(item)}" rendered="#{item.editando}" update="@form" />
                     </p:column>
                     <p:column headerText="#{msg['item.codigoItem']}">

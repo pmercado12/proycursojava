@@ -33,7 +33,7 @@ import lombok.Setter;
 @Setter
 @NamedQueries({
     @NamedQuery(name = "ScCatalogoItem.buscar",
-            query = "select u from ScCatalogoItem u where u.descItem like :filtro or u.codigoItem like :filtro")
+            query = "select u from ScCatalogoItem u where (u.descItem like :filtro or u.codigoItem like :filtro) and u.fechaBaja is null")
     ,@NamedQuery(name = "ScCatalogoItem.buscarPorRangoFecha",
             query = "select u from ScCatalogoItem u ")
 })

@@ -100,6 +100,7 @@ public class ItemBean /*extends XXXBean<ScCatalogoItem, Long>*/ {
 
     public void eliminarItem(ScCatalogoItemResponseVo itemView) throws ProyectoException {
         this.scCatalogoItemService.borrar(itemView.getIdItem());
+        this.itemsResponse.remove(itemView);
     }
 
     public void actualizaItemView(ScCatalogoItemResponseVo itemView, ScCatalogoItem item) {

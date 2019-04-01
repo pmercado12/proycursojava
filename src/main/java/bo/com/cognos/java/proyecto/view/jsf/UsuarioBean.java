@@ -18,7 +18,7 @@ import lombok.Setter;
 public class UsuarioBean extends XXXBean<Usuario, Integer> {
 
     @ManagedProperty("#{usuarioServiceImpl}")
-    UsuarioService usuarioService;
+    UsuarioService usuarioService;    
    
     public UsuarioBean() {
         super(Usuario.class);
