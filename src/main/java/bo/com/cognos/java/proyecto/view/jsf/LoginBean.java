@@ -11,7 +11,6 @@ import bo.com.cognos.java.proyecto.model.ProyectoException;
 import bo.com.cognos.java.proyecto.model.Usuario;
 import bo.com.cognos.java.proyecto.services.UsuarioService;
 import bo.com.cognos.java.proyecto.services.XXXService;
-import bo.com.cognos.java.proyecto.services.impl.UsuarioServiceImpl;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -40,7 +39,7 @@ public class LoginBean extends XXXBean<Usuario, Integer> {
         try {
             Usuario usuarioSesion = usuarioService.login(this.login, this.password);
             ((HttpSession) (FacesContext.getCurrentInstance().getExternalContext().getSession(true))).setAttribute("usuariosesion", usuarioSesion);
-            return "inicio?faces-redirect=true";
+            return "system/inicio?faces-redirect=true";
         } catch (ProyectoException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMensajeUsuario(), e.getMensajeUsuario()));
             return null;
