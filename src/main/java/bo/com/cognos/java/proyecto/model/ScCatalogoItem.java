@@ -93,6 +93,10 @@ public class ScCatalogoItem extends XXXModel<Long> implements Serializable {
     public ScCatalogoItem() {
     }
 
+    public ScCatalogoItem(Long id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "ScCatalogoItem{" + "idItem=" + id + ", codigoItem=" + codigoItem + ", descItem=" + descItem + ", descDefinicion=" + descDefinicion + ", keyEfectivo=" + keyEfectivo + ", apiEstado=" + apiEstado + '}';

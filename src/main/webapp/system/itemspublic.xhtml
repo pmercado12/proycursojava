@@ -52,10 +52,11 @@
                             <p:commandButton value="#{msg['general.cancelar']}" action="#{sinonimosBean.cancelar(sinonimo)}" rendered="#{sinonimo.editando}" update="@form" />
                         </p:column>
                         <p:column headerText="">
-                            <h:outputText value="#{sinonimo.descSinonimo}" rendered="#{!sinonimo.editando}"/>
+                            <h:outputText value="#{sinonimo.idUbigeo}"/>
+                            <h:outputText value="#{sinonimo.idUbigeo.descUbigeo}" rendered="#{!sinonimo.editando}"/>
                             <p:selectOneMenu id="lazy" value="#{sinonimo.idUbigeo}" dynamic="true" style="width:125px"
-                                             converter="entityConverter">
-                                <f:selectItems value="#{sinonimosBean.ubicacionesGeograficas}" var="ubicacion" itemLabel="#{ubicacion.descUbigeo}" itemValue="#{ubicacion}" />
+                                             converter="entityConverter" rendered="#{sinonimo.editando}" >
+                                <f:selectItems value="#{sinonimosBean.ubicacionesGeograficas}" var="ubicacion" itemLabel="#{ubicacion.descUbigeo}" itemValue="#{ubicacion}"/>
                             </p:selectOneMenu>
                         </p:column>
                         <p:column headerText="#{msg['sinonimo.descripcion']}">

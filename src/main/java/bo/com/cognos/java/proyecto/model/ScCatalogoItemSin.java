@@ -11,11 +11,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -27,32 +27,40 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "SC_CATALOGO_ITEM_SIN")
 @XmlRootElement
-public class ScCatalogoItemSin implements Serializable {
+@NamedQueries({
+    @NamedQuery(name = "ScCatalogoItemSin.buscar",
+            query = "select u from ScCatalogoItemSin u where (u.descSinonimo like :filtro) and u.fechaBaja is null")
+    ,@NamedQuery(name = "ScCatalogoItemSin.buscarPorRangoFecha",
+            query = "select u from ScCatalogoItemSin u ")
+    ,@NamedQuery(name = "ScCatalogoItemSin.buscarPorItem",
+            query = "select u from ScCatalogoItemSin u where idItem.id = :idItem ")
+})
+public class ScCatalogoItemSin extends XXXModel<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_SINONIMO", nullable = false)
-    private Long idSinonimo;
+    private Long id;
     @JoinColumn(name = "ID_UBIGEO", referencedColumnName = "ID_UBIGEO", nullable = false)
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private UbicacionesGeograficas idUbigeo;    
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private UbicacionesGeograficas idUbigeo;
     @Column(name = "DESC_SINONIMO", nullable = false, length = 500)
     private String descSinonimo;
     @Column(name = "MOTIVO_ESTADO_SINONIMO", length = 100)
-    private String motivoEstadoSinonimo;    
+    private String motivoEstadoSinonimo;
     @Column(name = "FECHA_ACTIVACION")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaActivacion;
     @Column(name = "FECHA_INACTIVACION")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaInactivacion;    
+    private Date fechaInactivacion;
     @Column(name = "API_ESTADO", length = 25)
-    private String apiEstado;    
+    private String apiEstado;
     @Column(name = "API_TRANSACCION", length = 30)
-    private String apiTransaccion;    
+    private String apiTransaccion;
     @Column(name = "USU_CRE", length = 30)
-    private String usuCre;    
+    private String usuCre;
     @Column(name = "FEC_CRE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecCre;
@@ -68,27 +76,16 @@ public class ScCatalogoItemSin implements Serializable {
     public ScCatalogoItemSin() {
     }
 
-    public ScCatalogoItemSin(Long idSinonimo) {
-        this.idSinonimo = idSinonimo;
+    public ScCatalogoItemSin(Long id) {
+        this.id = id;
     }
 
-    public ScCatalogoItemSin(Long idSinonimo, String descSinonimo, Date fechaActivacion,
-            String apiEstado, String apiTransaccion, String usuCre, Date fecCre) {
-        this.idSinonimo = idSinonimo;
-        this.descSinonimo = descSinonimo;
-        this.fechaActivacion = fechaActivacion;
-        this.apiEstado = apiEstado;
-        this.apiTransaccion = apiTransaccion;
-        this.usuCre = usuCre;
-        this.fecCre = fecCre;
+    public Long getId() {
+        return id;
     }
 
-    public Long getIdSinonimo() {
-        return idSinonimo;
-    }
-
-    public void setIdSinonimo(Long idSinonimo) {
-        this.idSinonimo = idSinonimo;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public UbicacionesGeograficas getIdUbigeo() {
@@ -199,7 +196,7 @@ public class ScCatalogoItemSin implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idSinonimo != null ? idSinonimo.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -210,8 +207,8 @@ public class ScCatalogoItemSin implements Serializable {
             return false;
         }
         ScCatalogoItemSin other = (ScCatalogoItemSin) object;
-        if ((this.idSinonimo == null && other.idSinonimo != null)
-                || (this.idSinonimo != null && !this.idSinonimo.equals(other.idSinonimo))) {
+        if ((this.id == null && other.id != null)
+                || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -219,7 +216,7 @@ public class ScCatalogoItemSin implements Serializable {
 
     @Override
     public String toString() {
-        return "ScCatalogoItemSin{" + "idSinonimo=" + idSinonimo + ", idUbigeo=" + idUbigeo + ", descSinonimo=" + descSinonimo + ", apiEstado=" + apiEstado + '}';
+        return "ScCatalogoItemSin{" + "idSinonimo=" + id + ", idUbigeo=" + idUbigeo + ", descSinonimo=" + descSinonimo + ", apiEstado=" + apiEstado + '}';
     }
 
 }

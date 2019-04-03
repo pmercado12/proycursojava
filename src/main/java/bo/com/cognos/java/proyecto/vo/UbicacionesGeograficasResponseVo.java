@@ -43,4 +43,9 @@ public class UbicacionesGeograficasResponseVo {
         this.descUbigeo = descUbigeo;
     }
 
+    @Override
+    public String toString() {
+        return "UbicacionesGeograficasResponseVo{" + "idUbigeo=" + idUbigeo + ", ubigeo=" + ubigeo + ", descUbigeo=" + descUbigeo + '}';
+    }
+
 }
