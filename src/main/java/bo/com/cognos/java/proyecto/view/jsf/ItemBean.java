@@ -2,7 +2,9 @@ package bo.com.cognos.java.proyecto.view.jsf;
 
 import bo.com.cognos.java.proyecto.model.ProyectoException;
 import bo.com.cognos.java.proyecto.model.ScCatalogoItem;
+import bo.com.cognos.java.proyecto.model.ScCatalogoItemSin;
 import bo.com.cognos.java.proyecto.services.ScCatalogoItemService;
+import bo.com.cognos.java.proyecto.services.ScCatalogoItemSinService;
 import bo.com.cognos.java.proyecto.services.XXXService;
 import bo.com.cognos.java.proyecto.vo.ScCatalogoItemResponseVo;
 import java.util.ArrayList;
@@ -30,6 +32,9 @@ public class ItemBean /*extends XXXBean<ScCatalogoItem, Long>*/ {
     private String filtro;
     @ManagedProperty("#{scCatalogoItemServiceImpl}")
     ScCatalogoItemService scCatalogoItemService;
+
+    @ManagedProperty("#{scCatalogoItemSinServiceImpl}")
+    ScCatalogoItemSinService scCatalogoItemSinService;
 
     Logger log = Logger.getLogger(this.getClass());
 
@@ -101,6 +106,12 @@ public class ItemBean /*extends XXXBean<ScCatalogoItem, Long>*/ {
     public void eliminarItem(ScCatalogoItemResponseVo itemView) throws ProyectoException {
         this.scCatalogoItemService.borrar(itemView.getIdItem());
         this.itemsResponse.remove(itemView);
+
+        List<ScCatalogoItemSin> listaSinonimos = scCatalogoItemSinService.buscarPorItem(itemView.getIdItem());
+
+        for (ScCatalogoItemSin sin : listaSinonimos) {
+            scCatalogoItemSinService.borrar(sin.getId());
+        }
     }
 
     public void actualizaItemView(ScCatalogoItemResponseVo itemView, ScCatalogoItem item) {

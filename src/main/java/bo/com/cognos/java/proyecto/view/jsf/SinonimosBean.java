@@ -56,7 +56,12 @@ public class SinonimosBean {
         sinonimo.setEditando(true);
     }
 
-    public void cancelar(ScCatalogoItemSinResponseVo sinonimo) {
+    public void cancelar(ScCatalogoItemSinResponseVo sinonimo) throws ProyectoException {
+        if (sinonimo.getIdSinonimo() == null) {
+            this.listaSinonimos.remove(sinonimo);
+        } else {
+            this.actualizaSinView(sinonimo, this.scCatalogoItemSinService.obtener(sinonimo.getIdSinonimo()));
+        }
         sinonimo.setEditando(false);
     }
 
@@ -83,8 +88,9 @@ public class SinonimosBean {
         sinView.setEditando(false);
     }
 
-    public void eliminar(ScCatalogoItemSinResponseVo sinonimo) {
-
+    public void eliminar(ScCatalogoItemSinResponseVo sinonimo) throws ProyectoException {
+        this.scCatalogoItemSinService.borrar(sinonimo.getIdSinonimo());
+        this.listaSinonimos.remove(sinonimo);
     }
 
     public void actualizaSinView(ScCatalogoItemSinResponseVo sinView, ScCatalogoItemSin sinonimo) {
