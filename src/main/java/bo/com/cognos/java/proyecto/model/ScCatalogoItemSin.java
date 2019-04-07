@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
     ,@NamedQuery(name = "ScCatalogoItemSin.buscarPorRangoFecha",
             query = "select u from ScCatalogoItemSin u ")
     ,@NamedQuery(name = "ScCatalogoItemSin.buscarPorItem",
-            query = "select u from ScCatalogoItemSin u where idItem.id = :idItem ")
+            query = "select u from ScCatalogoItemSin u where idItem.id = :idItem and u.fechaBaja is null")
 })
 public class ScCatalogoItemSin extends XXXModel<Long> implements Serializable {
 

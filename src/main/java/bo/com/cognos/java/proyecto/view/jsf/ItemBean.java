@@ -58,6 +58,7 @@ public class ItemBean /*extends XXXBean<ScCatalogoItem, Long>*/ {
 
     public void buscarItems() throws ProyectoException {
         //buscar
+        filtro = filtro == null ? "" : filtro;
         List<ScCatalogoItem> listaOriginal = scCatalogoItemService.buscar(filtro);
         this.itemsResponse = new ArrayList<ScCatalogoItemResponseVo>();
         for (ScCatalogoItem scCatalogoItem : listaOriginal) {

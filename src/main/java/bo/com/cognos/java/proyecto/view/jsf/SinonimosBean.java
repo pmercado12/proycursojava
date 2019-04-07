@@ -9,13 +9,17 @@ import bo.com.cognos.java.proyecto.vo.ScCatalogoItemResponseVo;
 import bo.com.cognos.java.proyecto.vo.ScCatalogoItemSinResponseVo;
 import bo.com.cognos.java.proyecto.vo.UbicacionesGeograficasResponseVo;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import lombok.Getter;
 import lombok.Setter;
+import org.primefaces.PrimeFaces;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -28,15 +32,12 @@ import lombok.Setter;
 public class SinonimosBean {
 
     private List<ScCatalogoItemSinResponseVo> listaSinonimos = new ArrayList<ScCatalogoItemSinResponseVo>();
-    private ScCatalogoItemResponseVo item;
-    private List<UbicacionesGeograficasResponseVo> ubicacionesGeograficas = new ArrayList<UbicacionesGeograficasResponseVo>();
+    private ScCatalogoItemResponseVo item;    
     @ManagedProperty("#{scCatalogoItemSinServiceImpl}")
     ScCatalogoItemSinService scCatalogoItemSinService;
 
     @PostConstruct
-    public void init() {
-        ubicacionesGeograficas.add(new UbicacionesGeograficasResponseVo(1l, 1, "CHUQUISACA"));
-        ubicacionesGeograficas.add(new UbicacionesGeograficasResponseVo(53l, 2, "LA PAZ"));
+    public void init() {        
     }
 
     public void agregar(ScCatalogoItemResponseVo item) {
@@ -46,6 +47,8 @@ public class SinonimosBean {
         for (ScCatalogoItemSin scCatalogoItemSin : lista) {
             listaSinonimos.add(transformarSinonimo(scCatalogoItemSin));
         }
+        RequestContext rc = RequestContext.getCurrentInstance();
+        rc.execute("PF('dlg1').show()");
     }
 
     public void nuevo() {
@@ -83,6 +86,7 @@ public class SinonimosBean {
         sinonimo.setIdUbigeo(new UbicacionesGeograficas(sinView.getIdUbigeo().getIdUbigeo()));
 
         sinonimo = this.scCatalogoItemSinService.guardar(sinonimo);
+        System.out.println("sinonimo creado:::" + sinonimo.toString());
         actualizaSinView(sinView, sinonimo);
 
         sinView.setEditando(false);

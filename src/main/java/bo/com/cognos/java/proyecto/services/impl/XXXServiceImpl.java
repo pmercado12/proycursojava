@@ -65,7 +65,9 @@ public abstract class XXXServiceImpl<T extends XXXModel<ID>, ID extends Number> 
         }
         item.setFechaModificacion(new Date());
         log.debug("Guardará: " + item);
-        getRepository().saveAndFlush(item);
+        item = getRepository().saveAndFlush(item);
+        item = obtener(item.getId());
+        log.debug("SE RECUPERO>: " + item);
         return item;
     }
 
