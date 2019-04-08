@@ -8,8 +8,10 @@ package bo.com.cognos.java.proyecto.resources;
 import bo.com.cognos.java.proyecto.model.ProyectoException;
 import bo.com.cognos.java.proyecto.model.ScCatalogoItem;
 import bo.com.cognos.java.proyecto.model.ScCatalogoItemSin;
+import bo.com.cognos.java.proyecto.model.UbicacionesGeograficas;
 import bo.com.cognos.java.proyecto.services.ScCatalogoItemService;
 import bo.com.cognos.java.proyecto.services.ScCatalogoItemSinService;
+import bo.com.cognos.java.proyecto.vo.ScCatalogoItemSinResponseVo;
 import java.util.List;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -38,23 +40,35 @@ public class SinonimosResource {
         return scCatalogoItemSinService.buscar(filtro);
     }
 
+    @Path("busquedaporitem")
+    @GET
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public List<ScCatalogoItemSin> listarTodosPorItem(@QueryParam("idItem") Long idItem) throws ProyectoException {
+        return scCatalogoItemSinService.buscarPorItem(idItem);
+    }
+
     @POST
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,})
-    public ScCatalogoItemSin crear(ScCatalogoItemSin sin) throws ProyectoException {
-        sin.setApiTransaccion("CREAR");
-        sin.setApiEstado("CREADO");
-        sin.setUsuCre("rest-admin");
-        return scCatalogoItemSinService.guardar(sin);
+    public ScCatalogoItemSin crear(ScCatalogoItemSinResponseVo sin) throws ProyectoException {
+        System.out.println("sinonimo enviado::::::" + sin.toString());
+        ScCatalogoItemSin sinonimo = new ScCatalogoItemSin();
+        sinonimo.setApiTransaccion("CREAR");
+        sinonimo.setApiEstado("CREADO");
+        sinonimo.setUsuCre("rest-admin");
+        sinonimo.setDescSinonimo(sin.getDescSinonimo());
+        sinonimo.setIdUbigeo(new UbicacionesGeograficas(sin.getIdUbigeo().getIdUbigeo()));
+        sinonimo.setIdItem(new ScCatalogoItem(sin.getIdItem().getIdItem()));
+        return scCatalogoItemSinService.guardar(sinonimo);
     }
 
     @Path("modifica")
     @PUT
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public ScCatalogoItemSin modificar(ScCatalogoItemSin sin) throws ProyectoException {
-        ScCatalogoItemSin sinMod = scCatalogoItemSinService.obtener(sin.getId());
+    public ScCatalogoItemSin modificar(ScCatalogoItemSinResponseVo sin) throws ProyectoException {
+        ScCatalogoItemSin sinMod = scCatalogoItemSinService.obtener(sin.getIdSinonimo());
 
         sinMod.setDescSinonimo(sin.getDescSinonimo());
-        sinMod.setIdUbigeo(sin.getIdUbigeo());
+        sinMod.setIdUbigeo(new UbicacionesGeograficas(sin.getIdUbigeo().getIdUbigeo()));
         sinMod.setApiTransaccion("MODIFICAR");
         sinMod.setUsuMod("rest-admin");
         sinMod.setApiEstado("CREADO");

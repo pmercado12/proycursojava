@@ -44,7 +44,7 @@ public class ScCatalogoItemSin extends XXXModel<Long> implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_SINONIMO", nullable = false)
     private Long id;
-    @JoinColumn(name = "ID_UBIGEO", referencedColumnName = "ID_UBIGEO", nullable = false)
+    @JoinColumn(name = "ID_UBIGEO", referencedColumnName = "ID_UBIGEO")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private UbicacionesGeograficas idUbigeo;
     @Column(name = "DESC_SINONIMO", nullable = false, length = 500)
@@ -57,7 +57,7 @@ public class ScCatalogoItemSin extends XXXModel<Long> implements Serializable {
     @Column(name = "FECHA_INACTIVACION")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaInactivacion;
-    @JoinColumn(name = "ID_ITEM", referencedColumnName = "ID_ITEM", nullable = false)
+    @JoinColumn(name = "ID_ITEM", referencedColumnName = "ID_ITEM")
     @ManyToOne(fetch = FetchType.LAZY)
     private ScCatalogoItem idItem;
 
