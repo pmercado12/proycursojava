@@ -13,7 +13,7 @@ public class XXXExceptionMapper
 
 	@Override
 	public Response toResponse(ProyectoException exception) {
-		return Response.status(exception.getCodigoError()).
+		return Response.status(500).
 				entity(exception.getMensajeUsuario()).type(MediaType.TEXT_PLAIN).build();
 	}
 

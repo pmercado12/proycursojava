@@ -52,8 +52,7 @@
                         <p:inputText value="#{usuarioBean.item.login}" required="true" 
                                      disabled="#{!usuarioBean.editando or !usuarioBean.nuevo}" />
                         <p:outputLabel value="#{msg['usuario.contrasena']}:" />
-                        <p:inputText value="#{usuarioBean.item.password}"
-                                     required="true" disabled="#{!usuarioBean.editando}" />
+                        <p:password value="#{usuarioBean.item.password}" required="true" disabled="#{!usuarioBean.editando}"/>
                         <p:outputLabel value="#{msg['usuario.habilitado']}:" />
                         <p:selectBooleanCheckbox value="#{usuarioBean.item.habilitado}" disabled="#{!usuarioBean.editando}" />
                     </h:panelGrid>

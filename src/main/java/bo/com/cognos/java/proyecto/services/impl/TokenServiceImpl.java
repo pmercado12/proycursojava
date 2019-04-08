@@ -61,13 +61,14 @@ public class TokenServiceImpl
 	}
 
 	@Override
+        @Transactional(rollbackFor=ProyectoException.class)
 	public Token generarToken(Usuario usuario) {
 		Token t = new Token();
 		t.setUsuario(usuario);
 		t.setFechaAsignacion(new Date());
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
-		cal.add(Calendar.MINUTE, 3);
+		cal.add(Calendar.MINUTE, 3);                
 		t.setFechaExpiracion(cal.getTime());
 		t.setFechaUltimoUso(new Date());
 		t.setToken(UUID.randomUUID().toString());

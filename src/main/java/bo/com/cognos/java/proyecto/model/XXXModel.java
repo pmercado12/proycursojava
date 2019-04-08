@@ -15,17 +15,22 @@ import lombok.Setter;
 @Setter
 public abstract class XXXModel<ID extends Number> {
 
-	public abstract ID getId();
-	public abstract void setId(ID id);
-	
-	@Column(name="FECHA_ALTA", nullable=false)
-	@Temporal(TemporalType.TIMESTAMP)
-	Date fechaAlta;
-	@Column(name="FECHA_MODIFICACION", nullable=false)
-	@Temporal(TemporalType.TIMESTAMP)
-	Date fechaModificacion;
-	@Column(name="FECHA_BAJA", nullable=true)
-	@Temporal(TemporalType.TIMESTAMP)
-	Date fechaBaja;
-	
+    public abstract ID getId();
+
+    public abstract void setId(ID id);
+
+    @Column(name = "API_ESTADO", length = 25)
+    private String apiEstado;
+    @Column(name = "API_TRANSACCION", length = 30)
+    private String apiTransaccion;
+    @Column(name = "USU_CRE", length = 30, updatable = false)
+    private String usuCre;
+    @Column(name = "FEC_CRE", updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fecCre;
+    @Column(name = "USU_MOD", length = 30)
+    private String usuMod;
+    @Column(name = "FEC_MOD")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fecMod;
 }

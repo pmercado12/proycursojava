@@ -30,13 +30,13 @@ public abstract class XXXServiceImpl<T extends XXXModel<ID>, ID extends Number> 
 
     @Override
     public List<T> buscar(String filtro) throws ProyectoException {
-        filtro = "%" + filtro + "%";
+        filtro = filtro == null ? "%" : "%" + filtro + "%";
         return getRepository().buscar(filtro);
     }
 
     @Override
     public List<T> buscar(String filtro, Date fechaInicial, Date fechaFinal) throws ProyectoException {
-        filtro = "%" + filtro + "%";
+        filtro = filtro == null ? "%" : "%" + filtro + "%";
         return getRepository().buscarPorRangoFecha(filtro, fechaInicial, fechaFinal);
     }
 
@@ -47,28 +47,44 @@ public abstract class XXXServiceImpl<T extends XXXModel<ID>, ID extends Number> 
     public void borrar(ID id) throws ProyectoException {
         T item = this.obtener(id);
         validarBorrado(item);
-        item.setFechaBaja(new Date());
-        getRepository().saveAndFlush(item);
+        getRepository().delete(item);
     }
 
     @Override
     @Transactional(rollbackFor = ProyectoException.class)
     public T guardar(T item) throws ProyectoException {
-        log.debug("Intenta guardar: " + item);
-        // Validaciones antes guardar...
+        validarApi(item);
         if (item.getId() == null) {
             validarAlta(item);
-            item.setFechaAlta(new Date());
+            item.setFecCre(new Date());
         } else {
             T itemExistente = getRepository().findById(item.getId()).orElse(null);
+            validarApiMod(item);
             validarModificacion(itemExistente, item);
+            item.setFecMod(new Date());
         }
-        item.setFechaModificacion(new Date());
-        log.debug("Guardará: " + item);
+        
         item = getRepository().saveAndFlush(item);
         item = obtener(item.getId());
-        log.debug("SE RECUPERO>: " + item);
         return item;
+    }
+
+    public void validarApi(T obj) throws ProyectoException {
+        if (obj.getApiTransaccion() == null || obj.getApiTransaccion().trim().length() == 0) {
+            throw new ProyectoException(0, "La api transaccion no puede ser nula");
+        }
+        if (obj.getApiEstado() == null || obj.getApiEstado().trim().length() == 0) {
+            throw new ProyectoException(0, "El estado del registro no puede ser nulo");
+        }
+        if (obj.getUsuCre() == null || obj.getUsuCre().trim().length() == 0) {
+            throw new ProyectoException(0, "El usuario de creacion no puede ser nulo");
+        }
+    }
+
+    public void validarApiMod(T obj) throws ProyectoException {
+        if (obj.getUsuMod() == null || obj.getUsuMod().trim().length() == 0) {
+            throw new ProyectoException(0, "El usuario de modificacion no puede ser nulo");
+        }
     }
 
 }

@@ -20,10 +20,10 @@ import lombok.Setter;
 		{
 @NamedQuery(name="Cliente.buscar", query="select c from Cliente c where "
 		+ "(c.nit like :filtro or c.razonSocial like :filtro or c.telefono like :filtro"
-		+ " or c.email like :filtro) and c.fechaBaja is null"),
+		+ " or c.email like :filtro)"),
 @NamedQuery(name="Cliente.buscarPorRangoFecha", query="select c from Cliente c where "
 		+ "(c.nit like :filtro or c.razonSocial like :filtro or c.telefono like :filtro"
-		+ " or c.email like :filtro) and c.fechaAlta between :fechaInicial and :fechaFinal and c.fechaBaja is null"),			
+		+ " or c.email like :filtro)"),			
 		}
 )
 public class Cliente extends XXXModel<Short> {

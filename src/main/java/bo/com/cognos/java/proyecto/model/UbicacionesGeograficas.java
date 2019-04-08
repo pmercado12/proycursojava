@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -87,6 +88,7 @@ public class UbicacionesGeograficas extends XXXModel<Long> implements Serializab
         this.nivel = nivel;
     }
 
+    @XmlTransient
     public List<UbicacionesGeograficas> getUbicacionesGeograficasList() {
         return ubicacionesGeograficasList;
     }
@@ -96,6 +98,7 @@ public class UbicacionesGeograficas extends XXXModel<Long> implements Serializab
         this.ubicacionesGeograficasList = ubicacionesGeograficasList;
     }
 
+    @XmlTransient
     public UbicacionesGeograficas getIdPadre() {
         return idPadre;
     }

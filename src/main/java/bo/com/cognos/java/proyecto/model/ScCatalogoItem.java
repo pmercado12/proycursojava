@@ -19,6 +19,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,7 +34,7 @@ import lombok.Setter;
 @Setter
 @NamedQueries({
     @NamedQuery(name = "ScCatalogoItem.buscar",
-            query = "select u from ScCatalogoItem u where (u.descItem like :filtro or u.codigoItem like :filtro) and u.fechaBaja is null")
+            query = "select u from ScCatalogoItem u where (u.descItem like :filtro or u.codigoItem like :filtro)")
     ,@NamedQuery(name = "ScCatalogoItem.buscarPorRangoFecha",
             query = "select u from ScCatalogoItem u ")
 })
@@ -68,20 +69,7 @@ public class ScCatalogoItem extends XXXModel<Long> implements Serializable {
     @Column(name = "FECHA_INACTIVACION")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaInactivacion;
-    @Column(name = "API_ESTADO", length = 25)
-    private String apiEstado;
-    @Column(name = "API_TRANSACCION", length = 30)
-    private String apiTransaccion;
-    @Column(name = "USU_CRE", length = 30)
-    private String usuCre;
-    @Column(name = "FEC_CRE")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fecCre;
-    @Column(name = "USU_MOD", length = 30)
-    private String usuMod;
-    @Column(name = "FEC_MOD")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fecMod;
+    
     @OneToMany(cascade = CascadeType.REFRESH, mappedBy = "idItem", fetch = FetchType.LAZY)
     private List<ScCatalogoItemSin> scCatalogoItemSinList;
     @OneToMany(mappedBy = "idItemPadre", fetch = FetchType.LAZY)
@@ -99,7 +87,27 @@ public class ScCatalogoItem extends XXXModel<Long> implements Serializable {
 
     @Override
     public String toString() {
-        return "ScCatalogoItem{" + "idItem=" + id + ", codigoItem=" + codigoItem + ", descItem=" + descItem + ", descDefinicion=" + descDefinicion + ", keyEfectivo=" + keyEfectivo + ", apiEstado=" + apiEstado + '}';
+        return "ScCatalogoItem{" + "idItem=" + id + ", codigoItem=" + codigoItem + ", descItem=" + descItem + ", descDefinicion=" + descDefinicion + ", keyEfectivo=" + keyEfectivo + '}';
     }
+
+    @XmlTransient
+    public List<ScCatalogoItemSin> getScCatalogoItemSinList() {
+        return scCatalogoItemSinList;
+    }
+
+    public void setScCatalogoItemSinList(List<ScCatalogoItemSin> scCatalogoItemSinList) {
+        this.scCatalogoItemSinList = scCatalogoItemSinList;
+    }
+
+    @XmlTransient
+    public List<ScCatalogoItem> getScCatalogoItemList() {
+        return scCatalogoItemList;
+    }
+
+    public void setScCatalogoItemList(List<ScCatalogoItem> scCatalogoItemList) {
+        this.scCatalogoItemList = scCatalogoItemList;
+    }
+    
+    
 
 }

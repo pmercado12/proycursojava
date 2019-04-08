@@ -12,6 +12,7 @@
         </ui:define>
         <ui:define name="content">
             <h:form id="form-lista-items">
+                <p:growl />
 
                 <h:panelGrid columns="4">
                     <p:inputText value="#{itemBean.filtro}"/>
@@ -30,7 +31,7 @@
                     </p:column>
                     <p:column headerText="#{msg['item.codigoItem']}">
                         <h:outputText value="#{item.codigoItem}" rendered="#{!item.editando}" />
-                        <p:inputText value="#{item.codigoItem}" rendered="#{item.editando}"/>
+                        <p:inputText value="#{item.codigoItem}" rendered="#{item.editando}" maxlength="8"/>
                     </p:column>
                     <p:column headerText="#{msg['item.descItem']}">
                         <h:outputText value="#{item.descItem}" rendered="#{!item.editando}"/>
@@ -42,6 +43,7 @@
 
             <p:dialog header="Sin&oacute;nimos del &iacute;tem" widgetVar="dlg1" minHeight="40" width="60%" modal="true">
                 <h:form id="form-sinonimos">
+                    <p:growl />
                     <h:panelGrid columns="1" rendered="#{sinonimosBean.item ne null}">
                         <p:commandButton value="#{msg['general.nuevo']}" action="#{sinonimosBean.nuevo()}" update="@form" />
                         <p:dataTable var="sinonimo" value="#{sinonimosBean.listaSinonimos}" >

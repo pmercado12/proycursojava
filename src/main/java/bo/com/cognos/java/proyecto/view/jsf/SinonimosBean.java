@@ -4,7 +4,9 @@ import bo.com.cognos.java.proyecto.model.ProyectoException;
 import bo.com.cognos.java.proyecto.model.ScCatalogoItem;
 import bo.com.cognos.java.proyecto.model.ScCatalogoItemSin;
 import bo.com.cognos.java.proyecto.model.UbicacionesGeograficas;
+import bo.com.cognos.java.proyecto.model.Usuario;
 import bo.com.cognos.java.proyecto.services.ScCatalogoItemSinService;
+import bo.com.cognos.java.proyecto.view.jsf.util.DatosSesion;
 import bo.com.cognos.java.proyecto.vo.ScCatalogoItemResponseVo;
 import bo.com.cognos.java.proyecto.vo.ScCatalogoItemSinResponseVo;
 import bo.com.cognos.java.proyecto.vo.UbicacionesGeograficasResponseVo;
@@ -13,9 +15,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import lombok.Getter;
 import lombok.Setter;
 import org.primefaces.PrimeFaces;
@@ -32,12 +36,12 @@ import org.primefaces.context.RequestContext;
 public class SinonimosBean {
 
     private List<ScCatalogoItemSinResponseVo> listaSinonimos = new ArrayList<ScCatalogoItemSinResponseVo>();
-    private ScCatalogoItemResponseVo item;    
+    private ScCatalogoItemResponseVo item;
     @ManagedProperty("#{scCatalogoItemSinServiceImpl}")
     ScCatalogoItemSinService scCatalogoItemSinService;
 
     @PostConstruct
-    public void init() {        
+    public void init() {
     }
 
     public void agregar(ScCatalogoItemResponseVo item) {
@@ -68,33 +72,48 @@ public class SinonimosBean {
         sinonimo.setEditando(false);
     }
 
-    public void guardar(ScCatalogoItemSinResponseVo sinView) throws ProyectoException {
+    public void guardar(ScCatalogoItemSinResponseVo sinView) {
 
-        ScCatalogoItemSin sinonimo;
+        try {
+            ScCatalogoItemSin sinonimo;
+            Usuario usuario = DatosSesion.getDatosUsuarioBean();
 
-        if (sinView.getIdSinonimo() == null) {
-            sinonimo = new ScCatalogoItemSin();
-        } else {
-            sinonimo = this.scCatalogoItemSinService.obtener(sinView.getIdSinonimo());
+            if (sinView.getIdSinonimo() == null) {
+                sinonimo = new ScCatalogoItemSin();
+                sinonimo.setApiTransaccion("CREAR");
+                sinonimo.setUsuCre(usuario.getLogin());
+            } else {
+                sinonimo = this.scCatalogoItemSinService.obtener(sinView.getIdSinonimo());
+                sinonimo.setApiTransaccion("MODIFICAR");
+                sinonimo.setUsuMod(usuario.getLogin());
+            }
+
+            ScCatalogoItem item = new ScCatalogoItem(this.item.getIdItem());
+
+            sinonimo.setId(sinView.getIdSinonimo());
+            sinonimo.setDescSinonimo(sinView.getDescSinonimo());
+            sinonimo.setIdItem(item);
+            sinonimo.setIdUbigeo(new UbicacionesGeograficas(sinView.getIdUbigeo().getIdUbigeo()));
+            sinonimo.setApiEstado("CREADO");
+            sinonimo = this.scCatalogoItemSinService.guardar(sinonimo);
+            System.out.println("sinonimo creado:::" + sinonimo.toString());
+            actualizaSinView(sinView, sinonimo);
+
+            sinView.setEditando(false);
+        } catch (ProyectoException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMensajeUsuario(), e.getMensajeUsuario()));
         }
 
-        ScCatalogoItem item = new ScCatalogoItem(this.item.getIdItem());
-
-        sinonimo.setId(sinView.getIdSinonimo());
-        sinonimo.setDescSinonimo(sinView.getDescSinonimo());
-        sinonimo.setIdItem(item);
-        sinonimo.setIdUbigeo(new UbicacionesGeograficas(sinView.getIdUbigeo().getIdUbigeo()));
-
-        sinonimo = this.scCatalogoItemSinService.guardar(sinonimo);
-        System.out.println("sinonimo creado:::" + sinonimo.toString());
-        actualizaSinView(sinView, sinonimo);
-
-        sinView.setEditando(false);
     }
 
-    public void eliminar(ScCatalogoItemSinResponseVo sinonimo) throws ProyectoException {
-        this.scCatalogoItemSinService.borrar(sinonimo.getIdSinonimo());
-        this.listaSinonimos.remove(sinonimo);
+    public void eliminar(ScCatalogoItemSinResponseVo sinonimo) {
+        try {
+            this.scCatalogoItemSinService.borrar(sinonimo.getIdSinonimo());
+            this.listaSinonimos.remove(sinonimo);
+        } catch (ProyectoException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMensajeUsuario(), e.getMensajeUsuario()));
+        }
+
     }
 
     public void actualizaSinView(ScCatalogoItemSinResponseVo sinView, ScCatalogoItemSin sinonimo) {

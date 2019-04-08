@@ -23,63 +23,62 @@ import bo.com.cognos.java.proyecto.services.TokenService;
 public class RestSessionFilter implements Filter {
 
     /**
-     * Default constructor. 
+     * Default constructor.
      */
     public RestSessionFilter() {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see Filter#destroy()
-	 */
-	public void destroy() {
-		// TODO Auto-generated method stub
-	}
+    /**
+     * @see Filter#destroy()
+     */
+    public void destroy() {
+        // TODO Auto-generated method stub
+    }
 
-	/**
-	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
-	 */
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		// TODO Auto-generated method stub
-		// place your code here
-		HttpServletRequest httpRequest = (HttpServletRequest)request;
-		if(httpRequest.getPathInfo().contains("login")) {
-			chain.doFilter(request, response);
-			return;
-		}
-		String token = httpRequest.getHeader("Authorization");
-		if(token == null) {
-			HttpServletResponse resp = (HttpServletResponse) response;
-			resp.reset();
-			resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-			resp.getWriter().println("Debe agregar la cabecera de autenticación");
-			return;
-		}
-		WebApplicationContextUtils.getRequiredWebApplicationContext(
-				request.getServletContext()).getAutowireCapableBeanFactory().
-				autowireBean(this);
-		token = token.substring(7);
-		try {
-			Token t = tokenService.obtenerPorToken(token);
-		} catch (ProyectoException e) {
-			HttpServletResponse resp = (HttpServletResponse) response;
-			resp.reset();
-			resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-			resp.getWriter().println(e.getMensajeUsuario());
-			return;
-		}
-		// pass the request along the filter chain
-		chain.doFilter(request, response);
-	}
-	
-	@Autowired
-	TokenService tokenService;
+    /**
+     * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
+     */
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        if (httpRequest.getPathInfo().contains("login")
+                || httpRequest.getPathInfo().endsWith(".wadl")) {
+            chain.doFilter(request, response);
+            return;
+        }
+        String token = httpRequest.getHeader("Authorization");
+        if (token == null) {
+            HttpServletResponse resp = (HttpServletResponse) response;
+            resp.reset();
+            resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            resp.getWriter().println("Debe agregar la cabecera de autenticación");
+            return;
+        }
+        WebApplicationContextUtils.getRequiredWebApplicationContext(
+                request.getServletContext()).getAutowireCapableBeanFactory().
+                autowireBean(this);
+        token = token.substring(7);
+        try {
+            Token t = tokenService.obtenerPorToken(token);
+        } catch (ProyectoException e) {
+            HttpServletResponse resp = (HttpServletResponse) response;
+            resp.reset();
+            resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            resp.getWriter().println(e.getMensajeUsuario());
+            return;
+        }
+        // pass the request along the filter chain
+        chain.doFilter(request, response);
+    }
 
-	/**
-	 * @see Filter#init(FilterConfig)
-	 */
-	public void init(FilterConfig fConfig) throws ServletException {
-		// TODO Auto-generated method stub
-	}
+    @Autowired
+    TokenService tokenService;
+
+    /**
+     * @see Filter#init(FilterConfig)
+     */
+    public void init(FilterConfig fConfig) throws ServletException {
+        // TODO Auto-generated method stub
+    }
 
 }

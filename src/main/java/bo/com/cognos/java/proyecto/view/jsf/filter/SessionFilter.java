@@ -1,6 +1,7 @@
 package bo.com.cognos.java.proyecto.view.jsf.filter;
 
 import bo.com.cognos.java.proyecto.model.Usuario;
+import bo.com.cognos.java.proyecto.view.jsf.util.DatosSesion;
 import java.io.IOException;
 
 import javax.servlet.Filter;
@@ -24,8 +25,7 @@ public class SessionFilter implements Filter {
             throws IOException, ServletException {
         // Verifica si ya se escribió la variable de sesión
         // "sesion"
-        Usuario sesion = (Usuario) ((HttpServletRequest) request).
-                getSession().getAttribute("usuariosesion");
+        Usuario sesion = DatosSesion.getDatosUsuario(request);
         if (sesion != null) {
             // Autorizamos...
             chain.doFilter(request, response);

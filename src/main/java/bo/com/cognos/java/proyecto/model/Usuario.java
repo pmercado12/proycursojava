@@ -17,46 +17,53 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name="USR_USUARIO")
+@Table(name = "USR_USUARIO")
 @Getter
 @Setter
 @XmlRootElement
-@NamedQueries({@NamedQuery(name="Usuario.buscarPorLogin", 
-query="select u from Usuario u where u.login = :login and u.fechaBaja is null")
-,@NamedQuery(name="Usuario.buscar", 
-query = "select u from Usuario u where u.login like :filtro and u.fechaBaja is null")
-,@NamedQuery(name="Usuario.buscarPorRangoFecha", 
-query = "select u from Usuario u where u.login like :filtro "
-		+ " and u.fechaAlta between :fechaInicial and :fechaFinal and u.fechaBaja is null")
+@NamedQueries({
+    @NamedQuery(name = "Usuario.buscarPorLogin",
+            query = "select u from Usuario u where u.login = :login")
+    ,@NamedQuery(name = "Usuario.buscar",
+            query = "select u from Usuario u where u.login like :filtro")
+    ,@NamedQuery(name = "Usuario.buscarPorRangoFecha",
+            query = "select u from Usuario u where u.login like :filtro ")
 })
 public class Usuario extends XXXModel<Integer> {
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="ID")
-	private Integer id;
-	
-	@Column(name="LOGIN", length=25, unique=true, 
-			nullable=false, updatable=false)
-	private String login;
-	
-	@Column(name="PASSWORD", length=40, nullable=false)
-	private String password;
-	
-	@Column(name="HABILITADO", nullable=false)
-	private boolean habilitado;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
+    private Integer id;
 
-	@Override
-	public String toString() {
-		return "Usuario [id=" + id + ", login=" + login + ", password=" + password + ", habilitado=" + habilitado + "]";
-	}
-	
+    @Column(name = "LOGIN", length = 25, unique = true,
+            nullable = false, updatable = false)
+    private String login;
+
+    @Column(name = "PASSWORD", length = 40, nullable = false)
+    private String password;
+
+    @Column(name = "HABILITADO", nullable = false)
+    private boolean habilitado;
+
+    public Usuario() {
+    }
+
+    public Usuario(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario [id=" + id + ", login=" + login + ", password=" + password + ", habilitado=" + habilitado + "]";
+    }
+
 //	public void test() {
 //		UsuarioRepository ur;
 //		// ur.findByLogin("dviorel");
 //		
 //	}
-	
 //	UsuarioService us;
 //	ParametroService ps;
 //	VentaService vs;
@@ -70,7 +77,4 @@ public class Usuario extends XXXModel<Integer> {
 //		us.metodoCero();
 //		vs.metodoUno();		
 //	}
-	
-		
-	
 }
