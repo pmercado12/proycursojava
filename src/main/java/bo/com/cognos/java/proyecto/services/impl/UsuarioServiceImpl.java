@@ -82,6 +82,7 @@ public class UsuarioServiceImpl extends XXXServiceImpl<Usuario, Integer>
         if (!objAnterior.getLogin().equals(objNuevo.getLogin())) {
             throw new ProyectoException(305, "No puede cambiar el login de un usuario existente.");
         }
+        objNuevo.setPassword(this.transformarPassword(objNuevo.getLogin(), objNuevo.getPassword()));
     }
 
     @Override
