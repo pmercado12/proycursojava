@@ -50,7 +50,6 @@ public class SinonimosResource {
     @POST
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,})
     public ScCatalogoItemSin crear(ScCatalogoItemSinResponseVo sin) throws ProyectoException {
-        System.out.println("sinonimo enviado::::::" + sin.toString());
         ScCatalogoItemSin sinonimo = new ScCatalogoItemSin();
         sinonimo.setApiTransaccion("CREAR");
         sinonimo.setApiEstado("CREADO");

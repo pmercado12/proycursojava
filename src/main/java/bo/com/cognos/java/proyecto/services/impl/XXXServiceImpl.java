@@ -55,6 +55,7 @@ public abstract class XXXServiceImpl<T extends XXXModel<ID>, ID extends Number> 
     public T guardar(T item) throws ProyectoException {
         validarApi(item);
         if (item.getId() == null) {
+            validarApiIns(item);
             validarAlta(item);
             item.setFecCre(new Date());
         } else {
@@ -75,7 +76,10 @@ public abstract class XXXServiceImpl<T extends XXXModel<ID>, ID extends Number> 
         }
         if (obj.getApiEstado() == null || obj.getApiEstado().trim().length() == 0) {
             throw new ProyectoException(0, "El estado del registro no puede ser nulo");
-        }
+        }        
+    }
+    
+    public void validarApiIns(T obj) throws ProyectoException {
         if (obj.getUsuCre() == null || obj.getUsuCre().trim().length() == 0) {
             throw new ProyectoException(0, "El usuario de creacion no puede ser nulo");
         }

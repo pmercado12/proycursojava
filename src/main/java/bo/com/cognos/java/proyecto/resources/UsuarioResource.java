@@ -23,58 +23,58 @@ import bo.com.cognos.java.proyecto.services.UsuarioService;
 @Path("usuario")
 public class UsuarioResource {
 
-	@Autowired
-	UsuarioService usuarioService;
-	@Autowired
-	TokenService tokenService;
-	
-	@GET
-	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public List<Usuario> listarTodos() throws ProyectoException{
-		return usuarioService.buscar("");		
-	}
-	
-	@GET
-	@Produces({MediaType.APPLICATION_XML})
-	@Path("/{id}")
-	public Usuario obtener(@PathParam("id")Integer id) throws ProyectoException{
-		return usuarioService.obtener(id);		
-	}
-	
-	@POST
-	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public Usuario crear(Usuario usuario) throws ProyectoException {
-		return usuarioService.guardar(usuario);
-	}
-	
-	@POST
-	@Produces({MediaType.TEXT_PLAIN})
-	@Path("/login")
-	public String login(Usuario usuario) throws ProyectoException {
-		Usuario usrAutenticado = usuarioService.login(usuario.getLogin(), usuario.getPassword());
-		Token token = tokenService.generarToken(usrAutenticado);		
-		return token.getToken();
-	}
-	
-	@PUT
-	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, 
-		MediaType.TEXT_PLAIN})
-	public Usuario actualizar(Usuario usuario) throws ProyectoException {
-		return usuarioService.guardar(usuario);
-	}
-	
-	
-	
-	@DELETE
-	@Produces({MediaType.TEXT_PLAIN})
-	@Path("/{id}")
-	public String borrar(@PathParam("id")Integer id) throws ProyectoException {
-		usuarioService.borrar(id);
-		return "OK";
-	}
-	
-	
-	
-	
-	
+    @Autowired
+    UsuarioService usuarioService;
+    @Autowired
+    TokenService tokenService;
+
+    @GET
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Usuario> listarTodos() throws ProyectoException {
+        return usuarioService.buscar("");
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_XML})
+    @Path("/{id}")
+    public Usuario obtener(@PathParam("id") Integer id) throws ProyectoException {
+        return usuarioService.obtener(id);
+    }
+
+    @POST
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Usuario crear(Usuario usuario) throws ProyectoException {
+        usuario.setApiTransaccion("CREAR");
+        usuario.setApiEstado("CREADO");
+        usuario.setUsuCre("rest-admin");
+        return usuarioService.guardar(usuario);
+    }
+
+    @POST
+    @Produces({MediaType.TEXT_PLAIN})
+    @Path("/login")
+    public String login(Usuario usuario) throws ProyectoException {
+        Usuario usrAutenticado = usuarioService.login(usuario.getLogin(), usuario.getPassword());
+        Token token = tokenService.generarToken(usrAutenticado);
+        return token.getToken();
+    }
+
+    @PUT
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON,
+        MediaType.TEXT_PLAIN})
+    public Usuario actualizar(Usuario usuario) throws ProyectoException {
+        usuario.setApiTransaccion("MODIFICAR");
+        usuario.setApiEstado("CREADO");
+        usuario.setUsuMod("rest-admin");
+        return usuarioService.guardar(usuario);
+    }
+
+    @DELETE
+    @Produces({MediaType.TEXT_PLAIN})
+    @Path("/{id}")
+    public String borrar(@PathParam("id") Integer id) throws ProyectoException {
+        usuarioService.borrar(id);
+        return "OK";
+    }
+
 }

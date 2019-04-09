@@ -46,7 +46,7 @@ public class ProyectoServiceHandler
 		if(data.contains("login>")) {
 			return true;
 		}
-		if(outboundProperty || true) {
+		if(outboundProperty) {
 			return true;
 		}
 		

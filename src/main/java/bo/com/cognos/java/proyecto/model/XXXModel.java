@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlTransient;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +16,7 @@ import lombok.Setter;
 @Setter
 public abstract class XXXModel<ID extends Number> {
 
+    @XmlTransient
     public abstract ID getId();
 
     public abstract void setId(ID id);
